@@ -1,0 +1,100 @@
+---- TERMINOLOGY ----
+SSH: Secure Shell
+Network protocol used to securely access a computer over an unsecured network.
+Either through password auth or a pub/private key auth.
+
+UFW: Uncomplicated FireWall
+When UFW is active it allows simple rules to allow/deny access through
+certain ports and from certain addresses
+
+su: superuser/substitute user | sudo = "su", do
+The root user has su privileges by default, and has permission to access,
+modify and run all files in the system.
+Any other user needs "sudo privileges" to perform su actions. 
+(ex. modifying system files, seeing the status of security sensitive processes)
+
+SDA: Small Computer System Interface disk
+the letter behind is purely for denoting which disk it is.
+sda = disk 1, sdb = disk 2, etc.
+sda1/2/5 are the partitions on disk "a".
+Then partition 5 is split into three separate sectors using LVM 
+(Logical Volume Manager).
+
+TTY: TeleTYpewriter, essentially the keyboard you input the commands on.
+In the sudo log you can see each sudo command, followed by what TTY the 
+command was input on. TTY=tyy are local tty connections, pts are remote/
+virtual connections to the system through ssh.
+"requiretty" in the sudo config ensures no external processes or services
+can run sudo commands.
+
+apt = Advanced Packaging tooling
+A package manager that lets you install and remove programs through the 
+command line. If you provide a package name with sudo "apt-get" it will
+check if the package exists and automatically install all things it's 
+dependent on as well.
+Aptitude is a packaging tool that has a user interface so it's possibly 
+easier to use than apt. It also containt all functionality from apt-get, 
+apt-mark, and apt-cache. It overall has more features but is not necessary.
+
+Daemon
+A computer program that runs as a background process, as opposed to being
+under direct control of a user. 'cron' is a daemon we'll be using for this 
+project to a command to display the monitoring script.
+
+---- THE WHY ----
+The three parts of sda5 are split into three "logical volumes". These are 
+root, home and [SWAP]. The main purpose of the logical volumes is to keep
+system and personal files separate with root and home. [SWAP] is used 
+in case the system lacks RAM, then it uses the space in [SWAP] as a substitute.
+
+AppArmor is a linux security system that proactiely protects the OS from 
+all kinds of threats. It can run on "enforce" or "complain" mode. 
+Enforce mode blocks specific actions from happening and logs them.
+Complain mode only logs any actions it finds objectionable.
+These modes are applied on "profiles" in the apparmor.d dir, which 
+outline the rules/requirements for the logging to happen.
+
+DEBIAN - ROCKY
+Deb and Rock use different package managers (apt w/ .deb vs dnf w/ .rpm). 
+Debian is the Upstream version of Ubuntu, informing it's design decisions.
+Rocky is Downstream from Red Hat Enterprise Linux, the most popular 
+commercial Linux distro. Unlike RHEL, Rocky is free to use but is compatible 
+with most of RHEL's tooling. 
+Rocky/RHEL is mostly used for enterprise purposes, while Debian/Ubuntu is 
+more geared towards desktops and home servers.
+
+---- FILE LOCATIONS ----
+profile settings:	.profile
+sudo config:		/etc/sudoers (I'm not using /sudoers.d/)
+sudo log:			/var/log/sudo/sudo.log
+ssh/sshd config:	/etc/ssh/sshd_config & /etc/ssh/ssh_config
+password timing:	/etc/login.defs (goto line 160)
+password policy:	/etc/pam.d/common-password
+monitoring script:	/usr/local/bin/monitoring.sh
+AppArmor profiles:	/etc/apparmor.d/
+
+---- VIM shortcuts ----
+[num]gg:	goto line [num]
+V:		visual mode
+J/K:	select line in visual mode
+Y/D:	copy(YANK)/cut
+P:		paste
+
+---- RELEVEANT INSTRUCTIONS ----
+sudo -E: 		Sudo but preserve user environment variables.
+sudo visudo: 	edit sudoers file (add -f to specify file different file)
+lsblk:			show partitions
+sudo aa-status:	Show AppArmor status
+sudo journalctl -fx:	Show AppArmor logs
+sudo ufw status numbered:	Show open ports with index num
+sudo ufw delete [num]:		Remove rule with index num
+groups:			List all groups [user] is part of
+getent group:	Print a list of all groups and it's members
+passwd:			change password
+less:			cat but different xd
+stress:			Load CPU to show CPU load display works
+
+PW user:	Born2beroot-	
+PW root:	Counterhit-5H (pw can't be 'Born2beroot-' because
+			that password contains the word 'root')
+PP:			Over-9000-Characters
