@@ -54,6 +54,13 @@ Complain mode only logs any actions it finds objectionable.
 These modes are applied on "profiles" in the apparmor.d dir, which 
 outline the rules/requirements for the logging to happen.
 
+Why store sudo actions in a separate log file instead of checking the contents 
+of /var/log/auth.log?
+The default log file, auth.log gets rotated out weekly, and eventually
+compressed and deleted by the system (with logrotate). 
+This is to ensure the storage does not get bogged down by an endless stream 
+of log files over the years. My sudo.log file does not have this problem.
+
 DEBIAN - ROCKY
 Deb and Rock use different package managers (apt w/ .deb vs dnf w/ .rpm). 
 Debian is the Upstream version of Ubuntu, informing it's design decisions.
