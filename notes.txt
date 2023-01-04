@@ -47,7 +47,7 @@ root, home and [SWAP]. The main purpose of the logical volumes is to keep
 system and personal files separate with root and home. [SWAP] is used 
 in case the system lacks RAM, then it uses the space in [SWAP] as a substitute.
 
-AppArmor is a linux security system that proactiely protects the OS from 
+AppArmor is a linux security system that proactively protects the OS from 
 all kinds of threats. It can run on "enforce" or "complain" mode. 
 Enforce mode blocks specific actions from happening and logs them.
 Complain mode only logs any actions it finds objectionable.
@@ -62,7 +62,7 @@ This is to ensure the storage does not get bogged down by an endless stream
 of log files over the years. My sudo.log file does not have this problem.
 
 DEBIAN - ROCKY
-Deb and Rock use different package managers (apt w/ .deb vs dnf w/ .rpm). 
+Deb and Rock use different package managers (apt vs dnf). 
 Debian is the Upstream version of Ubuntu, informing it's design decisions.
 Rocky is Downstream from Red Hat Enterprise Linux, the most popular 
 commercial Linux distro. Unlike RHEL, Rocky is free to use but is compatible 
@@ -80,6 +80,34 @@ password policy:	/etc/pam.d/common-password
 monitoring script:	/usr/local/bin/monitoring.sh
 AppArmor profiles:	/etc/apparmor.d/
 
+VM files:			/sgoinfre/acourtar/born2beroot
+
+---- RELEVEANT INSTRUCTIONS ----
+sudo -E: 					Sudo but preserve user environment variables.
+sudo visudo: 				edit sudoers file (add -f to specify different file)
+lsblk:						Show partitions
+sudo aa-status:				Show AppArmor status
+sudo ufw status numbered:	Show open ports with index num
+sudo ufw delete [num]:		Remove rule with index num
+sudo ufw allow:				Add new port to allow connections through
+groups:						List all groups [user] is part of
+getent group:				Print a list of all groups and it's members
+passwd [name]:				Change password of current user, or [name]
+sudo crontab -u root -e:	Change crontab rules for root
+sudo useradd [name]:		Add new user with [name]	
+sudo groupadd [name]:		Add new group
+usermod -g [group] [user]:	Make [group] the primary group of [user]
+usermod -a -G [g] [u]:		Append another group user is a member of
+less:						cat but different xd
+stress -c 1 -t 10:			Put load on CPU to show CPU load display works
+hostnamectl set-hostname [name]:	Change hostname
+
+---- PASSWORDS ----
+PW user:	Born2beroot-	
+PW root:	Counterhit-6H (pw can't be 'Born2beroot-' because
+			that password contains the word 'root')
+PP:			Over-9000-Characters
+
 ---- VIM shortcuts ----
 [num]gg:	goto line [num]
 V:		visual mode
@@ -87,21 +115,5 @@ J/K:	select line in visual mode
 Y/D:	copy(YANK)/cut
 P:		paste
 
----- RELEVEANT INSTRUCTIONS ----
-sudo -E: 		Sudo but preserve user environment variables.
-sudo visudo: 	edit sudoers file (add -f to specify file different file)
-lsblk:			show partitions
-sudo aa-status:	Show AppArmor status
-sudo journalctl -fx:	Show AppArmor logs
-sudo ufw status numbered:	Show open ports with index num
-sudo ufw delete [num]:		Remove rule with index num
-groups:			List all groups [user] is part of
-getent group:	Print a list of all groups and it's members
-passwd:			change password
-less:			cat but different xd
-stress:			Load CPU to show CPU load display works
-
-PW user:	Born2beroot-	
-PW root:	Counterhit-5H (pw can't be 'Born2beroot-' because
-			that password contains the word 'root')
-PP:			Over-9000-Characters
+---- LINKS ----
+https://crontab.guru/ for easy crontab config
