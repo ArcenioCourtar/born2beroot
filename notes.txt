@@ -19,6 +19,9 @@ sda = disk 1, sdb = disk 2, etc.
 sda1/2/5 are the partitions on disk "a".
 Then partition 5 is split into three separate sectors using LVM 
 (Logical Volume Manager).
+The main benefit of using LVM instead of regular partitions is that LVM 
+parts don't have to be physically contiguous or even reside on the same
+physical disk.
 
 TTY: TeleTYpewriter, essentially the keyboard you input the commands on.
 In the sudo log you can see each sudo command, followed by what TTY the 
@@ -63,7 +66,7 @@ of log files over the years. My sudo.log file does not have this problem.
 
 DEBIAN - ROCKY
 Deb and Rock use different package managers (apt vs dnf). 
-Debian is the Upstream version of Ubuntu, informing it's design decisions.
+Debian is the Upstream version of Ubuntu, informing Ubuntu's design decisions.
 Rocky is Downstream from Red Hat Enterprise Linux, the most popular 
 commercial Linux distro. Unlike RHEL, Rocky is free to use but is compatible 
 with most of RHEL's tooling. 
@@ -75,6 +78,8 @@ profile settings:	.profile
 sudo config:		/etc/sudoers (I'm not using /sudoers.d/)
 sudo log:			/var/log/sudo/sudo.log
 ssh/sshd config:	/etc/ssh/sshd_config & /etc/ssh/ssh_config
+					(PermitRootLogin in sshd file, 
+					also the allowed ports in one of them)
 password timing:	/etc/login.defs (goto line 160)
 password policy:	/etc/pam.d/common-password
 monitoring script:	/usr/local/bin/monitoring.sh
@@ -100,7 +105,9 @@ usermod -g [group] [user]:	Make [group] the primary group of [user]
 usermod -a -G [g] [u]:		Append another group user is a member of
 less:						cat but different xd
 stress -c 1 -t 10:			Put load on CPU to show CPU load display works
+sudo systemctl status sshd:	Check if ssh is active
 hostnamectl set-hostname [name]:	Change hostname
+sudo service cron stop/start/restart: start/stop/restart crontab
 
 ---- PASSWORDS ----
 PW user:	Born2beroot-	
